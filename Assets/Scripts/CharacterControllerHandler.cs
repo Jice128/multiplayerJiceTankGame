@@ -29,8 +29,9 @@ public class CharacterControllerHandler : NetworkBehaviour
 
     public void spawnBullets()
     {
-        Vector3 spawnPosition = this.transform.position;
-       
+           Vector3 spawnPosition = this.transform.position;
+     
+     //   Runner.LocalPlayer;
         Runner.Spawn(bulletPrefab, spawnPosition, this.transform.localRotation); // this.transform.localRotation
 
       
@@ -45,13 +46,40 @@ public class CharacterControllerHandler : NetworkBehaviour
     public override void FixedUpdateNetwork()
     {
 
-        if(Input.GetKey(KeyCode.O))
+        /* if (Runner.IsClient && Object.IsValid)
+         { 
+
+           if(Input.GetKeyDown(KeyCode.Space))
+           {
+             //  Debug.Log("client shoot");
+            //   spawnBullets();
+           }
+
+         }*/
+        if (Object.HasInputAuthority )
         {
-            spawnBullets();
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                 Debug.Log("client shoot");
+                  spawnBullets();
+            }
         }
+       
+
+        /*  if (Runner.IsServer)
+          {
+
+              if (Input.GetKeyDown(KeyCode.Space))
+              {
+                  Debug.Log("server shoot");
+                  spawnBullets();
+              }
+
+          }
+        */
 
 
-        if(GetInput(out NetworkInputData networkInputData))
+        if (GetInput(out NetworkInputData networkInputData))
         {
             _networkCharacterControllerTank.Rotate(networkInputData.RotationInput);
 

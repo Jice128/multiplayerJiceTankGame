@@ -14,7 +14,7 @@ public class BulletBehaviour : NetworkBehaviour
     Vector3 newDirection;
     Vector3 startPosition;
     public float DrawRayRange = 10.0f;
-    RaycastHit BulletHitPoint;
+  //  RaycastHit BulletHitPoint;
   /*  private void Start()
     {
         startPosition = transform.position;
@@ -44,7 +44,7 @@ public class BulletBehaviour : NetworkBehaviour
     private void bulletFly()
     {
       //  if (bulletHealth == 0) Destroy(gameObject);
-        Physics.Raycast(transform.position, transform.forward, out BulletHitPoint, 300);
+   //     Physics.Raycast(transform.position, transform.forward, out BulletHitPoint, 300);
         transform.Translate(Vector3.forward * bulletSpeed * Time.deltaTime);
         /* same by phisycs
             var rb = GetComponent<Rigidbody>();
@@ -57,7 +57,7 @@ public class BulletBehaviour : NetworkBehaviour
         {
                 
       //      bulletHealth--;
-            newDirection = Vector3.Reflect((BulletHitPoint.point - startPosition), BulletHitPoint.normal);
+         //   newDirection = Vector3.Reflect((BulletHitPoint.point - startPosition), BulletHitPoint.normal);
             transform.rotation = Quaternion.LookRotation(newDirection);
          
         }
