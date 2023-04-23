@@ -6,21 +6,38 @@ public class CharacterInputObserver : MonoBehaviour    //this is "local" class t
 
     [SerializeField] private Joystick _joystick;
     public float x, y;
+    private bool _FireButtonPressed = false;
+    CharacterControllerHandler _characterControllerHandler;
 
     private void Awake()
     {
         _joystick = GameObject.FindGameObjectWithTag("GameController").GetComponent<Joystick>();
         _moveInputVector.x = 0;
+
+        _characterControllerHandler = GetComponent<CharacterControllerHandler>();
     }
 
     private void Update()
     {   //we will make input all frames but as soon as network will be ready to receive it we go to  GetNetworkInput()
         //   _moveInputVector.x = Input.GetAxis("Horizontal");
         //_moveInputVector.y = Input.GetAxis("Vertical");
+        if (!_characterControllerHandler.Object.HasInputAuthority)  //if we dont have authority we will not control
+            return;
+
+
 
         _moveInputVector.x = _joystick.Horizontal;
         _moveInputVector.y = _joystick.Vertical;
-      //  Debug.Log(_joystick.Vertical);
+
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            _FireButtonPressed = true;
+        }
+
+
+
+        //  Debug.Log(_joystick.Vertical);
     }
 
 
@@ -39,6 +56,13 @@ public class CharacterInputObserver : MonoBehaviour    //this is "local" class t
         //to out "network" variables  in struct NetworkInputData.cs 
         //move
         _networkInputData.MovementInput = _moveInputVector;  //to out "network" variables  in struct NetworkInputData.cs 
+
+        //fire
+        _networkInputData.FireButtonPressed = _FireButtonPressed; 
+        _FireButtonPressed = false;
+
+
+
         return _networkInputData;
     }
 }

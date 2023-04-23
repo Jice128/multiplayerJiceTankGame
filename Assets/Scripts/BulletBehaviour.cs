@@ -31,7 +31,7 @@ public class BulletBehaviour : NetworkBehaviour
     public override  void FixedUpdateNetwork()
     { 
 
-    transform.Translate(Vector3.right* bulletSpeed * Time.deltaTime);
+         transform.Translate(Vector3.right* bulletSpeed * Time.deltaTime);
 
     }
 
@@ -53,12 +53,16 @@ public class BulletBehaviour : NetworkBehaviour
     }
     private void OnTriggerEnter(Collider other)
       {
-        if (other.tag == "Wall")
+        if (other.tag == "Player")
         {
-                
-      //      bulletHealth--;
+            //  Debug.Log("We hit player " + other.GetComponent<NetworkObject>().Id);
+            if (other.GetComponent<NetworkObject>().Id != this.GetComponent<NetworkObject>().Id)
+                Debug.Log("We hit another player");
+
+
+         //      bulletHealth--;
          //   newDirection = Vector3.Reflect((BulletHitPoint.point - startPosition), BulletHitPoint.normal);
-            transform.rotation = Quaternion.LookRotation(newDirection);
+           // transform.rotation = Quaternion.LookRotation(newDirection);
          
         }
       }
